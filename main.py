@@ -9,7 +9,7 @@ import winsound
 
 DROWSY_CONSECUTIVE_FRAMES = 5
 SLEEP_CONSECUTIVE_FRAMES = 10
-alarm_status = 0
+alarm_status = False
 drowsy_frames_counter = 0
 
 logging.basicConfig(filename="drowsiness_history.log", level=logging.INFO)
@@ -39,7 +39,8 @@ def main():
                 drowsy_frames_counter += 1
 
                 if drowsy_frames_counter >= SLEEP_CONSECUTIVE_FRAMES:
-                    alarm_status = 1
+                    alarm_status = True
+
                     # When testing
                     winsound.Beep(1000,1500)
 
@@ -47,8 +48,8 @@ def main():
                     # buzzer.start_alarm(alarm_status)
 
                 elif drowsy_frames_counter >= DROWSY_CONSECUTIVE_FRAMES:
-                    
-                    alarm_status = 1
+
+                    alarm_status = True
                     # When testing
                     winsound.Beep(1000,500)
 
@@ -64,7 +65,7 @@ def main():
                     print("Logged out")
 
             else:
-                alarm_status = 0
+                alarm_status = False
                 
                 drowsy_frames_counter = 0
 
@@ -82,7 +83,7 @@ def main():
 
     capture.release()
     cv2.destroyAllWindows()
-    # buzzer.clean_pins_up()
+    buzzer.clean_pins_up()
 
 if __name__ == "__main__":
     main()
