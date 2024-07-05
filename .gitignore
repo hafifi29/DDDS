@@ -1,0 +1,4 @@
+driver_drowsiness_detection.db
+drowsiness_history.log
+.vscode
+__pycache__
