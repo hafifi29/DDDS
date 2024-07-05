@@ -77,5 +77,7 @@ def resize_frame(frame, width=320, height=240):
 def get_face_landmarks(resized_frame, face):
     """Get facial landmarks for a given face."""
     gray_frame = cv2.cvtColor(resized_frame, cv2.COLOR_BGR2GRAY)
+
+    # using the model provided by dlib for faster and more accurate performance
     landmarks = Predictor(gray_frame, face)
     return face_utils.shape_to_np(landmarks)

@@ -1,6 +1,6 @@
 import database
 import logging
-# import buzzer
+import buzzer
 import model
 import cv2
 import api
@@ -14,14 +14,6 @@ drowsy_frames_counter = 0
 
 logging.basicConfig(filename="drowsiness_history.log", level=logging.INFO)
 
-def alarm():
-    #the alarm fuunction can be changed basd on the OS and envoniment
-    #this functio will sound the alarm in case of drowsiness
-    global alarm_status 
-
-    while alarm_status == 1:
-
-        winsound.Beep(1000,500)
 
 def main():
     """Main function to start the drowsiness detection system."""
@@ -47,22 +39,29 @@ def main():
                 drowsy_frames_counter += 1
 
                 if drowsy_frames_counter >= SLEEP_CONSECUTIVE_FRAMES:
+                    alarm_status = 1
+                    # When testing
                     winsound.Beep(1000,1500)
-                    
+
+                    #for rasspberry pi use
+                    # buzzer.start_alarm(alarm_status)
 
                 elif drowsy_frames_counter >= DROWSY_CONSECUTIVE_FRAMES:
-                    # play long sound
+                    
+                    alarm_status = 1
+                    # When testing
                     winsound.Beep(1000,500)
-                    pass
+
+                    #for rasspberry pi use
+                    # buzzer.start_alarm(alarm_status)
 
                 logged_user_result = api.get_login_status()
 
-                # if logged_user_result["logged_in"]:
-                #     database.insert_drowsiness_event(ear_value, logged_user_result["username"])
-                #     print(f"Logged in as {logged_user_result["username"]}")
+                if logged_user_result["logged_in"]:
+                    database.insert_drowsiness_event(ear_value, logged_user_result["username"])
 
-                # else:
-                #     print("Logged out")
+                else:
+                    print("Logged out")
 
             else:
                 alarm_status = 0
